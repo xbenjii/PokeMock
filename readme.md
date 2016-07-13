@@ -1,10 +1,13 @@
 # PokeMock
 
+Allows you to control your Pokemon GO character using the arrow keys on a PC.
+
 Video: https://www.youtube.com/watch?v=eBBiNYdUzvQ
 
 ### To run the server (Port 9001 by default)
 * `cd server`
 * `npm install`
+* Change the initial coordinates (lat,long) (I'll be automating this in the future to grab your current location)
 * `node server`
 
 ### To run the client
