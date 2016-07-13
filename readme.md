@@ -13,7 +13,7 @@ Video: https://www.youtube.com/watch?v=eBBiNYdUzvQ
 * `node server`
 
 ### To run the client
-* **REQUIRED**: Rooted device with the XPosed framework installed along with the [Mock Mock Locations](http://repo.xposed.info/module/com.brandonnalls.mockmocklocations) module.
+* **REQUIRED**: Rooted device with the XPosed framework installed along with the [Mock Mock Locations](http://repo.xposed.info/module/com.brandonnalls.mockmocklocations) module (Or equivalent, as lonjg as you can hide the status of mock locations from the Pokemon GO app).
 * Build the APK or just "Run" the app from Android Studio
 * Get the IP and port the server is running on and enter it in the box
 * Click start, minimize the app and run Pokemon GO
