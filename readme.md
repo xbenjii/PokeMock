@@ -2,6 +2,8 @@
 
 Allows you to control your Pokemon GO character using the arrow keys in a terminal. The client is an Android app and the server is written in JavaScript for Node.js. Communication is done with websockets.
 
+Tested working on LG G5 running 6.0.1.
+
 Video: https://www.youtube.com/watch?v=eBBiNYdUzvQ
 
 ### To run the server (Port 9001 by default)
