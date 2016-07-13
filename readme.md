@@ -7,7 +7,7 @@ Video: https://www.youtube.com/watch?v=eBBiNYdUzvQ
 ### To run the server (Port 9001 by default)
 * `cd server`
 * `npm install`
-* Change the initial coordinates (lat,long) in client/server.js (I'll be automating this in the future to grab your current location)
+* Change the initial coordinates (lat,long) in server/server.js (I'll be automating this in the future to grab your current location)
 * `node server`
 
 ### To run the client
