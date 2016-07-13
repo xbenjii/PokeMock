@@ -1,6 +1,6 @@
 # PokeMock
 
-Allows you to control your Pokemon GO character using the arrow keys on a PC.
+Allows you to control your Pokemon GO character using the arrow keys in a terminal. The client is an Android app and the server is written in JavaScript for Node.js. Communication is done with websockets.
 
 Video: https://www.youtube.com/watch?v=eBBiNYdUzvQ
 
