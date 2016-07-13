@@ -1,5 +1,7 @@
 # PokeMock
 
+Video: https://www.youtube.com/watch?v=eBBiNYdUzvQ
+
 ### To run the server (Port 9001 by default)
 * `cd server`
 * `npm install`
