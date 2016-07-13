@@ -7,7 +7,7 @@
 
 ### To run the client
 * **REQUIRED**: Rooted device with the XPosed framework installed along with the [Mock Mock Locations](http://repo.xposed.info/module/com.brandonnalls.mockmocklocations) module.
-* Get the IP the server is running on and enter it in the box
+* Get the IP and port the server is running on and enter it in the box
 * Click start, minimize the app and run Pokemon GO
 
 ### To use
