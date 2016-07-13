@@ -20,3 +20,6 @@ Video: https://www.youtube.com/watch?v=eBBiNYdUzvQ
 
 ### To use
 * Press the required arrow keys on the server console
+
+### Current issues
+* If the app crashes, there's a good chance you haven't set it as the mock location app in developer settings.
