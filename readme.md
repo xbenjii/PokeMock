@@ -23,3 +23,6 @@ Video: https://www.youtube.com/watch?v=eBBiNYdUzvQ
 
 ### Current issues
 * If the app crashes, there's a good chance you haven't set it as the mock location app in developer settings.
+
+### To DO
+* Rebuild the app so it doesn't require a server (floating window with arrow keys?)
