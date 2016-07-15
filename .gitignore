@@ -36,6 +36,8 @@ client/captures/
 *.iml
 client/.idea/workspace.xml
 client/.idea/libraries
+.idea/workspace.xml
+.idea/libraries
 
 # Keystore files
 *.jks
