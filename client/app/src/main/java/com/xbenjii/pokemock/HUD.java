@@ -14,19 +14,26 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
-public class HUD extends Service {
+import jp.co.recruit_lifestyle.android.floatingview.FloatingViewListener;
+import jp.co.recruit_lifestyle.android.floatingview.FloatingViewManager;
+
+public class HUD extends Service implements FloatingViewListener {
 
     private static final String TAG = "HUD";
 
     private String mockLocationProvider = LocationManager.GPS_PROVIDER;
     private LocationManager mLocationManager;
     private Location currentLocation = new Location(mockLocationProvider);
+
+    private FloatingViewManager mFloatingViewManager;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -53,6 +60,16 @@ public class HUD extends Service {
     public void onCreate() {
         super.onCreate();
 
+        int density = getResources().getDisplayMetrics().densityDpi;
+
+        int defaultSize = (int) (150 * (density / DisplayMetrics.DENSITY_DEFAULT));
+        RelativeLayout.LayoutParams lpPin = new RelativeLayout.LayoutParams(defaultSize, defaultSize);
+
+        lpPin.addRule(RelativeLayout.ALIGN_PARENT_END);
+        lpPin.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        JoystickView joystickView = new JoystickView(this);
+        joystickView.setLayoutParams(lpPin);
+
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         mLocationManager.addTestProvider(mockLocationProvider, true, true, true, false, true,
@@ -71,75 +88,37 @@ public class HUD extends Service {
         currentLocation.setLatitude(53.7282337);
         currentLocation.setLongitude(-1.8642777);
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSLUCENT);
-        final WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View myView = inflater.inflate(R.layout.hud, null);
+        final DisplayMetrics metrics = new DisplayMetrics();
+        final WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
 
-        Button up = (Button) myView.findViewById(R.id.up);
-        Button down = (Button) myView.findViewById(R.id.down);
-        Button left = (Button) myView.findViewById(R.id.left);
-        Button right = (Button) myView.findViewById(R.id.right);
-        Button exit = (Button) myView.findViewById(R.id.exit);
+        mFloatingViewManager = new FloatingViewManager(this, this);
+        mFloatingViewManager.setTrashViewEnabled(false);
+        final FloatingViewManager.Options options = new FloatingViewManager.Options();
+        options.shape = FloatingViewManager.SHAPE_CIRCLE;
+        options.overMargin = (int) (16 * metrics.density);
 
-        up.setOnClickListener(new View.OnClickListener() {
+        mFloatingViewManager.addViewToWindow(joystickView, options);
+
+        joystickView.setOnJostickMovedListener(new JoystickMovedListener() {
             @Override
-            public void onClick(View view) {
-                Log.v(TAG, "Up clicked");
-                currentLocation.setLatitude(currentLocation.getLatitude() + 0.0000100);
+            public void OnMoved(double diffLongitude, double diffLatitude) {
+                currentLocation.setLongitude(currentLocation.getLongitude() + diffLongitude);
+                currentLocation.setLatitude(currentLocation.getLatitude() + diffLatitude);
                 currentLocation.setTime(System.currentTimeMillis());
                 currentLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
                 mLocationManager.setTestProviderLocation(mockLocationProvider, currentLocation);
             }
-        });
 
-        down.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Log.v(TAG, "Down clicked");
-                currentLocation.setLatitude(currentLocation.getLatitude() - 0.0000100);
-                currentLocation.setTime(System.currentTimeMillis());
-                currentLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
-                mLocationManager.setTestProviderLocation(mockLocationProvider, currentLocation);
+            public void OnReleased() {
+
             }
         });
+    }
 
-        left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(TAG, "Left clicked");
-                currentLocation.setLongitude(currentLocation.getLongitude() - 0.0000100);
-                currentLocation.setTime(System.currentTimeMillis());
-                currentLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
-                mLocationManager.setTestProviderLocation(mockLocationProvider, currentLocation);
-            }
-        });
+    @Override
+    public void onFinishFloatingView() {
 
-        right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v(TAG, "Right clicked");
-                currentLocation.setLongitude(currentLocation.getLongitude() + 0.0000100);
-                currentLocation.setTime(System.currentTimeMillis());
-                currentLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
-                mLocationManager.setTestProviderLocation(mockLocationProvider, currentLocation);
-            }
-        });
-
-        exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                wm.removeView(myView);
-            }
-        });
-
-        wm.addView(myView, params);
     }
 }
