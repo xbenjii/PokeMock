@@ -8,8 +8,8 @@ android {
         applicationId "com.xbenjii.pokemock"
         minSdkVersion 23
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
     }
     buildTypes {
         release {
@@ -17,11 +17,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
+}
+
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.neovisionaries:nv-websocket-client:1.28'
+    compile 'com.github.erdalgns:FloatingView:1.7b'
 }
