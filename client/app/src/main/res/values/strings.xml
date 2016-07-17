@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PokeMock</string>
     <string name="start">Start</string>
+    <string name="autocomplete_hint">Enter place name or address</string>
 </resources>

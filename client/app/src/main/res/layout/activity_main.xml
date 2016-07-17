@@ -9,12 +9,35 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.xbenjii.pokemock.MainActivity">
 
-    <Button
-        android:layout_width="fill_parent"
+    <AutoCompleteTextView
+        android:id="@+id/autocomplete_places"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start"
-        android:id="@+id/button"
-        android:layout_alignParentStart="true"
-        android:clickable="true" />
+        android:background="@android:color/white"
+        android:hint="@string/autocomplete_hint"
+        android:layout_gravity="top"
+        android:layout_marginBottom="10dp"
+        android:singleLine="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/autocomplete_places">
+
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/start"
+            android:id="@+id/button"
+            android:layout_gravity="bottom"
+            android:clickable="true" />
+
+    </FrameLayout>
 
 </RelativeLayout>
