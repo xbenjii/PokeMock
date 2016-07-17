@@ -32,7 +32,7 @@ public class SharedPreferencesStorage {
             sharedPreferences = context.getSharedPreferences("coordinates", Context.MODE_PRIVATE);
         }
 
-        return new LatLng(Double.longBitsToDouble(sharedPreferences.getLong("Latitude", Double.doubleToLongBits(40.959799))),
-                Double.longBitsToDouble(sharedPreferences.getLong("Longitude", Double.doubleToLongBits(29.081727))));
+        return new LatLng(Double.longBitsToDouble(sharedPreferences.getLong("Latitude", Double.doubleToLongBits(53.7282337))),
+                Double.longBitsToDouble(sharedPreferences.getLong("Longitude", Double.doubleToLongBits(-1.8642777))));
     }
 }
