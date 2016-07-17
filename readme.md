@@ -1,5 +1,7 @@
 # PokeMock
 
+[![Join the chat at https://gitter.im/xbenjii/PokeMock](https://badges.gitter.im/xbenjii/PokeMock.svg)](https://gitter.im/xbenjii/PokeMock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Allows you to control your Pokemon GO character using a screen overlay.
 
 Tested working on LG G5 running 6.0.1.
