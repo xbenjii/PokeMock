@@ -41,5 +41,3 @@ client/.idea/libraries
 
 # Keystore files
 *.jks
-
-server/node_modules
