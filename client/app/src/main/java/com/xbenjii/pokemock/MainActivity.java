@@ -1,12 +1,15 @@
 package com.xbenjii.pokemock;
 
 import android.Manifest;
+import android.app.AppOpsManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -16,6 +19,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
@@ -108,22 +112,38 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void startOverlay() {
-        if(ContextCompat.checkSelfPermission(MainActivity.this,
+
+        boolean isMockLocationEnabled = isMockSettingsON();
+        if (!isMockLocationEnabled) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Mock location is disabled")
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent i = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                        }
+                    }).setCancelable(false);
+            builder.create();
+            builder.show();
+        } else if(ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{
                             Manifest.permission.ACCESS_FINE_LOCATION
                     }, MY_PERMISSIONS_REQUEST_FINE_LOCATION);
-            return;
+        } else {
+            if(Settings.canDrawOverlays(MainActivity.this)) {
+                bindService(new Intent(this, HUD.class), this, Context.BIND_AUTO_CREATE);
+            } else {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 1234);
+            }
         }
 
-        if(Settings.canDrawOverlays(MainActivity.this)) {
-            bindService(new Intent(this, HUD.class), this, Context.BIND_AUTO_CREATE);
-        } else {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, 1234);
-        }
+
     }
 
     @Override
