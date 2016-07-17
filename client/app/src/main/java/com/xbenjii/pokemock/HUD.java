@@ -5,7 +5,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.PixelFormat;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,11 +15,9 @@ import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import jp.co.recruit_lifestyle.android.floatingview.FloatingViewListener;
 import jp.co.recruit_lifestyle.android.floatingview.FloatingViewManager;
@@ -72,10 +69,19 @@ public class HUD extends Service implements FloatingViewListener {
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        mLocationManager.addTestProvider(mockLocationProvider, true, true, true, false, true,
-                true, true, 0, 5);
-        mLocationManager.setTestProviderEnabled(mockLocationProvider, true);
-        mLocationManager.setTestProviderStatus(mockLocationProvider, LocationProvider.AVAILABLE, null, System.currentTimeMillis());
+        try {
+            mLocationManager.addTestProvider(mockLocationProvider, true, true, true, false, true,
+                    true, true, 0, 5);
+            mLocationManager.setTestProviderEnabled(mockLocationProvider, true);
+            mLocationManager.setTestProviderStatus(mockLocationProvider, LocationProvider.AVAILABLE, null, System.currentTimeMillis());
+        } catch (Exception e) {
+            Toast.makeText(HUD.this, "You haven't set PokeMock as the active mock location app.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return;
+        }
+
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
             mLocationManager.requestLocationUpdates(mockLocationProvider, 5, 15, locationListener);
