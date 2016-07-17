@@ -10,10 +10,13 @@ Tested working on LG G5 running 6.0.1.
 * Click start, accept the permissions and run the Pokemon GO app.
 
 ### To use
-* Press the button in the direction you want to move.
+* Drag the joystick in the direction you want to move.
 
 ### Current issues
 * If the app crashes, there's a good chance you haven't set it as the mock location app in developer settings.
 
-### To DO
-* Rebuild the app so it doesn't require a server (floating window with arrow keys?)
+### To do
+* Set the initial location.
+
+### Credit to
+* [@erdalgns](https://github.com/erdalgns)
